@@ -6,7 +6,7 @@ def doFit(hist, isPi0, isEE, OutFileName):
 	print "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 	meanVal = (0.47, 0.4, 0.62)
 	sigmaVal = (0.053, 0.015, 0.090)
-	Range = (0.3, 0.7)
+	Range = (0.2, 0.75)
 	if(isPi0):
 		meanVal = (0.116, 0.105, 0.150)
 		Range = (0.08, 0.2)
@@ -48,6 +48,7 @@ def doFit(hist, isPi0, isEE, OutFileName):
 	cb6 = RooRealVar("cb6","cb6", 0.3, -1.,1.);
 
 	cbpars = RooArgList(cb0,cb1,cb2, cb3)
+#	cbpars = RooArgList(cb0,cb1,cb2)
 
 	bkg = RooChebychev("bkg","bkg model", x, cbpars )
 	Nbkg = RooRealVar("Nbkg","background yield",1.e3,0.,100000000)
@@ -86,7 +87,6 @@ def doFit(hist, isPi0, isEE, OutFileName):
 	
 	
 	xframe = x.frame(hist.GetNbinsX())
-#	xframe = x.frame()
 	xframe.SetTitle(hist.GetTitle())
 	dh.plotOn(xframe)
 	BkgSet = RooArgSet(bkg)
@@ -94,5 +94,27 @@ def doFit(hist, isPi0, isEE, OutFileName):
 	model.plotOn(xframe)
 	canvas = TCanvas()
 	xframe.Draw()
-	ffilename = "fits/" + OutFileName + "FIT.pdf"
+	lat = TLatex()
+	lat.SetNDC()
+	lat.SetTextSize(0.03)
+	lat.SetTextColor(1)
+	xmin = 0.65
+	yhi = 0.905
+	ypass = 0.045
+	line = "Yield = " + str(round(Nsig.getVal(),2)) + " #pm " + str(round(Nsig.getError(),2))
+	lat.DrawLatex(xmin,yhi,line)
+	canvas.Update()
+	line = "m_{#gamma#gamma} = " + str(round(mean.getVal()*1000.,2)) + " #pm " + str(round(mean.getError()*1000.,2)) + " MeV"
+	lat.DrawLatex(xmin,yhi-ypass,line)
+	Unknown = round(sigma.getVal()*100./mean.getVal(),2)
+	line = "#sigma = " + str(round(sigma.getVal()*1000,2)) + " #pm " + str(round(sigma.getError()*1000,2)) + " MeV"
+	lat.DrawLatex(xmin,yhi-2.*ypass,line)
+	line = "#sigma/#mu = " + str(Unknown) + "%"
+	lat.DrawLatex(xmin,yhi-3.*ypass,line)
+	line = "S/B(3#sigma) = " + str(round(SoB,2))
+	lat.DrawLatex(xmin,yhi-4.*ypass,line)
+	kai2 = round(xframe.chiSquare()/ndof,2)
+	line = "#chi^{2} = " + str(kai2)
+	lat.DrawLatex(xmin,yhi-5.*ypass,line)
+	ffilename = "fits/" + str(OutFileName) + "FIT.pdf"
 	canvas.SaveAs(ffilename)

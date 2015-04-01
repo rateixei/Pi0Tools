@@ -124,7 +124,7 @@ def main(argv):
 	
 	mass = TH1F()
 	if(eta):
-		mass = TH1F('mass', '#eta#rightarrow#gamma#gamma Invariant Mass;M_{#eta};Events', 50, 0.3, 0.7)
+		mass = TH1F('mass', '#eta#rightarrow#gamma#gamma Invariant Mass;M_{#eta};Events', 50, 0.25, 0.75)
 	if(pi0):
 		mass = TH1F('mass', '#pi^{0}#rightarrow#gamma#gamma Invariant Mass;M_{#pi^{0}};Events', 50, 0.08, 0.2)
 	
