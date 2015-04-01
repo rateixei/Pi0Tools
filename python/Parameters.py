@@ -1,0 +1,13 @@
+#Variables used in the optimization
+NCr1 = (0, 1, 2, 3, 4)
+SizeNCr1 = len(NCr1)
+NCr2 = (0, 1, 2, 3, 4)
+SizeNCr2 = len(NCr2)
+PtClu = (0.8, 1., 1.3, 1.6)
+SizePtClu = len(PtClu)
+S4S9 = (0.8, 0.85, 0.9)
+SizeS4S9 = len(S4S9)
+Iso = (0.15, 0.3, 0.5)
+SizeIso = len(Iso)
+PtDi = (2.5, 3, 3.5)
+SizePtDi = len(PtDi)
