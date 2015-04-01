@@ -7,15 +7,17 @@ Plots the invariant mass of a determined selection given by the user through inp
 Instructions to run the Plotter:
 
 python python/Plotter.py 
--i /tmp/rateixei/eos/cms/store/caf/user/lpernie/ALL_MINBIAS_UNCAL_L1_NOL1FILTER_40PU50ns_EB_eta_NewSeed/iter_0/epsilonPlots_0.root 
--p -b 
---NCr1=4 
---NCr2=4 
---PtClu=1.6 
---S4S9=0.9 
---Iso=0.15 
---PtDi=3.6 
---name=Teste2
+-i /tmp/rateixei/eos/cms/store/caf/user/lpernie/ALL_MINBIAS_UNCAL_L1_NOL1FILTER_40PU50ns_EB_eta_NewSeed/iter_0/epsilonPlots_0.root -e -b --NCr1=4 --NCr2=4 --PtClu=1.6 --S4S9=0.9 --Iso=0.15 --PtDi=3.6 --name=Teste2 -f  
+#####Options:
+-e (-e for Eta, -p for pi0)  
+-b (-b for barrel, -c for endcap)  
+--NCr1=4 --NCr2=4: Cut on number of cristals of each cluster  
+--PtClu=1.6: Cut on clusters pt  
+--S4S9=0.9: Cut on S4/S9  
+--Iso=0.15: Cut on Isolation (HLT Iso)  
+--PtDi=3.6: Cut on Eta/Pi0 Pt  
+--name=Teste2: Name of output pdf  
+-f: <b>Use this flag if you want to also produce the fit</b>
 
 --> Currently works only with local files =/
 
