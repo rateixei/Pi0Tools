@@ -17,6 +17,9 @@ python python/Plotter.py
 --Iso=0.15: Cut on Isolation (HLT Iso)  
 --PtDi=3.6: Cut on Eta/Pi0 Pt  
 --name=Teste2: Name of output pdf  
+--HltIsoOff: Use standard iso instead of HLT iso (hlt is default)  
+--CutCorrOff: Cut on uncorrected variables (cut on corrected is default)  
+--PlotCorrOff: Plot uncorrected mass distribution (plot corrected is default)  
 -f: <b>Use this flag if you want to also produce the fit</b>
 
 --> Currently works only with local files =/
