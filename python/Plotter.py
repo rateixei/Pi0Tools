@@ -12,7 +12,6 @@ def main(argv):
 	pi0 = False
 	EB = True
 	EE = False
-	Max = 10000000
 	NCr1 = ''
 	NCr2 = ''
 	PtClu = ''
@@ -20,9 +19,13 @@ def main(argv):
 	Iso = ''
 	PtDi = ''
 	name = 'output.pdf'
-	DoFit = 0
+	DoFit = False
+	hltisoOff = False
+	cutCorrOff = False
+	plotCorrOff = False
+	
 	try:
-		opts, args = getopt.getopt(argv,"hi:epbcf",["input=","maximum=", "NCr1=", "NCr2=", "PtClu=", "S4S9=", "Iso=", "PtDi=", "name="])
+		opts, args = getopt.getopt(argv,"hi:epbcf",["input=","maximum=", "NCr1=", "NCr2=", "PtClu=", "S4S9=", "Iso=", "PtDi=", "name=", "HltIsoOff", "CutCorrOff", "PlotCorrOff"])
 	except getopt.GetoptError:
 		print 'Plotter.py -i <inputfile> '
 		print '-e/-p[--eta/--pi0] (-e for eta, -p for pi0) '
@@ -82,13 +85,42 @@ def main(argv):
 		elif opt in ("--name"):
 			name = str(arg)
 		elif opt in ("-f", "--doFit"):
-			DoFit = 1
+			DoFit = True
+		elif opt in ("--HltIsoOff"):
+			hltisoOff = True
+		elif opt in ("--CutCorrOff"):
+			cutCorrOff = True
+		elif opt in ("--PlotCorrOff"):
+			plotCorrOff = True
 			
 	file = TFile.Open(str(inputfile), 'READ')
 	tree = file.Get('Tree_Optim')
 	if(tree.GetEntries() < 1):
 		print 'Tree has problems. Does the file exist?'
 		sys.exit()
+
+	print "Doing fit? ", DoFit
+
+	#String Vars:
+	st_mass = 'STr2_mPi0_rec>>mass'
+	st_NCr1 = 'STr2_n1CrisPi0_rec > '
+	st_NCr2 = 'STr2_n2CrisPi0_rec > '
+	st_PtClu_1 = 'STr2_ptG1_rec > ' 
+	st_PtClu_2 = 'STr2_ptG2_rec > ' 
+	st_S4S9_1 = 'STr2_S4S9_1 > '
+	st_S4S9_2 = 'STr2_S4S9_2 > '
+	st_Iso = 'STr2_HLTIsoPi0_rec < '
+	st_PtDi = 'STr2_ptPi0_rec > '
+
+	if(plotCorrOff):
+		st_mass = 'STr2_mPi0_nocor>>mass'
+	if(cutCorrOff):
+		st_PtClu_1 = 'STr2_ptG1_nocor > ' 
+		st_PtClu_2 = 'STr2_ptG2_nocor > ' 
+		st_PtDi = 'STr2_ptPi0_nocor > '
+	if(hltisoOff):
+		st_Iso = 'STr2_IsoPi0_rec < '
+		
 	
 	mass = TH1F()
 	if(eta):
@@ -102,12 +134,12 @@ def main(argv):
 	if(EE):
 		cut0 = 'fabs(STr2_etaPi0_rec) > 1.'
 	Cut0 = cut0 + ' && '
-	Cut1 = 'STr2_n1CrisPi0_rec > ' + str(NCr1) + ' && '
-	Cut2 = 'STr2_n2CrisPi0_rec > ' + str(NCr2) + ' && '
-	Cut3 = 'STr2_ptG1_rec > ' + str(PtClu) + ' && STr2_ptG2_rec > ' + str(PtClu) + ' && '
-	Cut4 = 'STr2_S4S9_1 > ' + str(S4S9) + ' && STr2_S4S9_2 > ' + str(S4S9) + ' && '
-	Cut5 = 'STr2_HLTIsoPi0_rec < ' + str(Iso) + ' && '
-	Cut6 = 'STr2_ptPi0_rec > ' + str(PtDi)
+	Cut1 = st_NCr1 + str(NCr1) + ' && '
+	Cut2 = st_NCr2 + str(NCr2) + ' && '
+	Cut3 = st_PtClu_1 + str(PtClu) + ' && ' + st_PtClu_2 + str(PtClu) + ' && '
+	Cut4 = st_S4S9_1 + str(S4S9) + ' && ' + st_S4S9_2 + str(S4S9) + ' && '
+	Cut5 = st_Iso + str(Iso) + ' && '
+	Cut6 = st_PtDi + str(PtDi)
 	print '			Printing with the following cuts:'
 	print '			', Cut0
 	print '			', Cut1
@@ -117,9 +149,9 @@ def main(argv):
 	print '			', Cut5
 	print '			', Cut6
 	SelectionCut = TCut(Cut0 + Cut1 + Cut2 + Cut3 + Cut4 + Cut5 + Cut6)
-	npass = tree.Draw('STr2_mPi0_rec>>mass', SelectionCut)
+	npass = tree.Draw(st_mass, SelectionCut)
 	PrintTH1F(mass,'', name)
-	if(doFit):
+	if(DoFit):
 		doFit(mass, pi0, EE, name)
 	
 if __name__ == "__main__":
