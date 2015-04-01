@@ -6,15 +6,15 @@ Tools for Pi0 Analysis
 Plots the invariant mass of a determined selection given by the user through input parameters.
 Instructions to run the Plotter:
 
-python python/Plotter.py \
--i /tmp/rateixei/eos/cms/store/caf/user/lpernie/ALL_MINBIAS_UNCAL_L1_NOL1FILTER_40PU50ns_EB_eta_NewSeed/iter_0/epsilonPlots_0.root \
--p -b \
---NCr1=4 \
---NCr2=4 \
---PtClu=1.6 \
---S4S9=0.9 \
---Iso=0.15 \
---PtDi=3.6 \
+python python/Plotter.py 
+-i /tmp/rateixei/eos/cms/store/caf/user/lpernie/ALL_MINBIAS_UNCAL_L1_NOL1FILTER_40PU50ns_EB_eta_NewSeed/iter_0/epsilonPlots_0.root 
+-p -b 
+--NCr1=4 
+--NCr2=4 
+--PtClu=1.6 
+--S4S9=0.9 
+--Iso=0.15 
+--PtDi=3.6 
 --name=Teste2
 
 --> Currently works only with local files =/
