@@ -1,8 +1,8 @@
 #!/bin/python
 
 from ROOT import *
-from Fitter import *
 from Printer import *
+from doFit import *
 import getopt, sys
 
 def main(argv):
@@ -20,8 +20,9 @@ def main(argv):
 	Iso = ''
 	PtDi = ''
 	name = 'output.pdf'
+	DoFit = 0
 	try:
-		opts, args = getopt.getopt(argv,"hi:epbc",["input=","maximum=", "NCr1=", "NCr2=", "PtClu=", "S4S9=", "Iso=", "PtDi=", "name="])
+		opts, args = getopt.getopt(argv,"hi:epbcf",["input=","maximum=", "NCr1=", "NCr2=", "PtClu=", "S4S9=", "Iso=", "PtDi=", "name="])
 	except getopt.GetoptError:
 		print 'Plotter.py -i <inputfile> '
 		print '-e/-p[--eta/--pi0] (-e for eta, -p for pi0) '
@@ -29,6 +30,7 @@ def main(argv):
 		print '--name=<filename>'
 		print 'Variables to assign: NCr1, NCr2, PtClu, S4S9, Iso, PtDi'
 		print 'Usage: --var=Value'
+		print 'IF you want to fit: --doFit'
 		sys.exit(2)
 	if len(opts) == 0:
 		print 'Plotter.py -i <inputfile> '
@@ -37,6 +39,7 @@ def main(argv):
 		print '--name=<filename>'
 		print 'Variables to assign: NCr1, NCr2, PtClu, S4S9, Iso, PtDi'
 		print 'Usage: --var=Value'
+		print 'IF you want to fit: --doFit'
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
@@ -46,6 +49,7 @@ def main(argv):
 			print '--name=<filename>'
 			print 'Variables to assign: NCr1, NCr2, PtClu, S4S9, Iso, PtDi'
 			print 'Usage: --var=Value'
+			print 'IF you want to fit: --doFit'
 			sys.exit()
 		elif opt in ("-i", "--input"):
 			inputfile = arg
@@ -77,6 +81,8 @@ def main(argv):
 			PtDi = float(arg)
 		elif opt in ("--name"):
 			name = str(arg)
+		elif opt in ("-f", "--doFit"):
+			DoFit = 1
 			
 	file = TFile.Open(str(inputfile), 'READ')
 	tree = file.Get('Tree_Optim')
@@ -113,6 +119,8 @@ def main(argv):
 	SelectionCut = TCut(Cut0 + Cut1 + Cut2 + Cut3 + Cut4 + Cut5 + Cut6)
 	npass = tree.Draw('STr2_mPi0_rec>>mass', SelectionCut)
 	PrintTH1F(mass,'', name)
+	if(doFit):
+		doFit(mass, pi0, EE, name)
 	
 if __name__ == "__main__":
 	main(sys.argv[1:])
