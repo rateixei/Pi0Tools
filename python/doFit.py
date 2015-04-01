@@ -94,5 +94,5 @@ def doFit(hist, isPi0, isEE, OutFileName):
 	model.plotOn(xframe)
 	canvas = TCanvas()
 	xframe.Draw()
-	ffilename = OutFileName + "FIT.pdf"
+	ffilename = "fits/" + OutFileName + "FIT.pdf"
 	canvas.SaveAs(ffilename)
