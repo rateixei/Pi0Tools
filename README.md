@@ -25,5 +25,5 @@ python python/Plotter.py
 Can be used to go through the cut grid and optimize it
 Being implemented...
 
-#### 3) Fitter:
-Fits the invariant mass distribution (TH1F)
+#### 3) doFit:
+Fits the invariant mass distribution (TH1F). To be used with Plotter (see instructions above) with -f flag.
