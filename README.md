@@ -22,7 +22,7 @@ python python/Plotter.py
 --PlotCorrOff: Plot uncorrected mass distribution (plot corrected is default)  
 -f: <b>Use this flag if you want to also produce the fit</b>
 
---> Currently works only with local files =/
+--> Currently works only with local files =/  
 --> Location of Minimum bias Neutrino gun MC processed trees:  
 /store/caf/user/lpernie/ALL_MINBIAS_UNCAL_L1_NOL1FILTER_40PU50ns_EB_eta_NewSeed
 /store/caf/user/lpernie/ALL_MINBIAS_UNCAL_L1_NOL1FILTER_40PU50ns_EB_pi0_NewSeed
