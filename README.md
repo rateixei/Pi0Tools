@@ -29,7 +29,7 @@ python python/Plotter.py
 /store/caf/user/lpernie/ALL_MINBIAS_UNCAL_L1_NOL1FILTER_40PU50ns_EE_eta_NewSeed
 /store/caf/user/lpernie/ALL_MINBIAS_UNCAL_L1_NOL1FILTER_40PU50ns_EE_pi0_NewSeed_v2  
 --> Eta EB merged file:  
-lxplus0073: /tmp/rateixei
+lxplus0073: /tmp/rateixei/eta_eb.root
 
 #### 2) Optimizer:
 Can be used to go through the cut grid and optimize it
